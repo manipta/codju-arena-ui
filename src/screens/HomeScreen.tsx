@@ -196,7 +196,7 @@ const HomeScreen: React.FC<Props> = ({ onNavigate }) => {
               <div style={{ fontWeight: 800, color: colors.text }}>
                 {detailedProfile.xp} XP
               </div>
-              <div>/ {profile?.levelProgress?.total || "∞"}</div>
+              {/* <div>/ {profile?.levelProgress?.total || "∞"}</div> */}
             </div>
           </div>
 
