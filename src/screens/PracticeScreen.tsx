@@ -57,7 +57,7 @@ const PracticeScreen: React.FC<Props> = ({ onNavigate }) => {
 
   const { timeLeft, reset: resetTimer } = useCountdown(
     15,
-    !!session && !showResult,
+    !!session && !showResult && !showCorrectAnswer,
   );
 
   const { colors, theme } = useTheme();
@@ -635,7 +635,7 @@ const PracticeScreen: React.FC<Props> = ({ onNavigate }) => {
             opacity: loading ? 0.6 : 1,
           }}
         >
-          {loading ? "Starting..." : "🚀 Start Practice Session"}
+          {loading ? "Starting..." : "Start Practice Session"}
         </button>
       </div>
     </div>

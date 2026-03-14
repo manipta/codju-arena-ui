@@ -45,19 +45,24 @@ const PlayerHUD: React.FC<Props> = ({
 
       <div
         style={{
-          display: "inline-block",
-          fontSize: 9,
+          display: "inline-flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 2,
+          fontSize: 10,
           fontWeight: 800,
-          padding: "1px 8px",
+          padding: "3px 10px",
           borderRadius: 20,
-          marginTop: 2,
-          marginBottom: 4,
-          background: `${level.color}22`,
-          border: `1px solid ${level.color}55`,
+          marginTop: 4,
+          marginBottom: 6,
+          background: `${level.color}20`,
+          border: `1.5px solid ${level.color}60`,
           color: level.color,
+          minHeight: 20,
         }}
       >
-        {level.name}
+        <span style={{ fontSize: 8 }}>{level.emoji}</span>
+        <span>{level.name}</span>
       </div>
 
       {/* Hearts */}

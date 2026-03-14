@@ -4,13 +4,7 @@ import { useTheme } from "../context/ThemeContext";
 import { useUserProfile } from "../hooks/useUserProfile";
 import { useUserStats } from "../hooks/useUserStats";
 import { useLevels } from "../hooks/useLevels";
-import ProfileAvatar from "../components/ProfileAvatar";
-import {
-  getLevelFromXP,
-  getXPProgress,
-  getXPToNext,
-  LEVELS,
-} from "../utils/levels";
+import { getLevelFromXP, getXPProgress, getXPToNext } from "../utils/levels";
 
 interface Props {
   onNavigate: (screen: string) => void;
@@ -70,12 +64,36 @@ const ProgressScreen: React.FC<Props> = ({ onNavigate }) => {
 
   if (!user) return null;
 
+  // Show loading state if profile is still being fetched
+  if (profileLoading && !profile) {
+    return (
+      <div
+        style={{
+          fontFamily: '"Nunito", sans-serif',
+          color: colors.text,
+          paddingBottom: 80,
+          background: colors.background,
+          minHeight: "100vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <div style={{ textAlign: "center" }}>
+          <div style={{ fontSize: 32, marginBottom: 16 }}>📊</div>
+          <div style={{ fontSize: 16, fontWeight: 800, marginBottom: 8 }}>
+            Loading your progress...
+          </div>
+          <div style={{ fontSize: 12, color: colors.textMuted }}>
+            Fetching your learning data
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   // Use detailed profile data if available, fallback to basic user data
   const detailedProfile = profile?.user || user;
-  const currentLevel = profile?.currentLevel || getLevelFromXP(user.xp);
-  const nextLevel = profile?.nextLevel;
-  const progress = profile?.levelProgress?.percentage || getXPProgress(user.xp);
-  const xpToNext = nextLevel?.xpRequired || getXPToNext(user.xp);
 
   // Use dynamic levels for progression timeline if available
   const progressionLevels = levels.length > 0 ? levels : EDUCATION_LEVELS;
@@ -113,11 +131,14 @@ const ProgressScreen: React.FC<Props> = ({ onNavigate }) => {
       }}
     >
       {/* Header */}
-      <div
+      <nav
         style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          padding: "14px 20px",
           background: colors.navBackground,
           borderBottom: `1px solid ${colors.border}`,
-          padding: "20px",
           position: "sticky",
           top: 0,
           zIndex: 100,
@@ -126,16 +147,17 @@ const ProgressScreen: React.FC<Props> = ({ onNavigate }) => {
         <div
           style={{
             fontFamily: '"Fredoka One", cursive',
-            fontSize: 24,
+            fontSize: 20,
             background: colors.gradient,
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
             textAlign: "center",
+            flex: 1,
           }}
         >
           📊 Your Progress
         </div>
-      </div>
+      </nav>
 
       <div style={{ padding: "20px" }}>
         {/* Learning Progression */}
@@ -251,10 +273,30 @@ const ProgressScreen: React.FC<Props> = ({ onNavigate }) => {
                 left: 12,
                 width: `${Math.min(
                   100,
-                  (user.xp /
-                    (progressionLevels[progressionLevels.length - 1]?.minXP ||
-                      5000)) *
-                    100,
+                  (() => {
+                    // Calculate progress based on current level position
+                    const completedLevels =
+                      filterLevelsByXP(user.xp).length - 1;
+                    const totalLevels = progressionLevels.length - 1;
+
+                    if (totalLevels === 0) return 0;
+
+                    // Base progress from completed levels
+                    let progressPercent = (completedLevels / totalLevels) * 100;
+
+                    // Add progress within current level if we have level data
+                    if (
+                      profile?.levelProgress?.percentage &&
+                      completedLevels < totalLevels
+                    ) {
+                      const currentLevelProgress =
+                        (profile.levelProgress.percentage / 100) *
+                        (100 / totalLevels);
+                      progressPercent += currentLevelProgress;
+                    }
+
+                    return Math.min(100, progressPercent);
+                  })(),
                 )}%`,
                 height: 3,
                 background: colors.gradient,

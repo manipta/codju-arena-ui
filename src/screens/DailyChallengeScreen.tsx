@@ -32,6 +32,42 @@ interface Props {
 
 const DailyChallengeScreen: React.FC<Props> = ({ onNavigate }) => {
   const { colors, theme } = useTheme();
+
+  // Theme-aware styles
+  const primaryBtnStyle: React.CSSProperties = {
+    width: "100%",
+    padding: 16,
+    borderRadius: 12,
+    border: "none",
+    background: "#EF9F27",
+    color: "#fff",
+    fontFamily: '"Nunito", sans-serif',
+    fontSize: 15,
+    fontWeight: 800,
+    cursor: "pointer",
+  };
+
+  const secondaryBtnStyle: React.CSSProperties = {
+    width: "100%",
+    padding: 14,
+    borderRadius: 12,
+    background:
+      theme === "dark" ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.05)",
+    border: `1px solid ${colors.border}`,
+    color: colors.text,
+    fontFamily: '"Nunito", sans-serif',
+    fontSize: 14,
+    fontWeight: 600,
+    cursor: "pointer",
+  };
+
+  const statCardStyle: React.CSSProperties = {
+    background: colors.cardBackground,
+    borderRadius: 12,
+    border: `1px solid ${colors.border}`,
+    padding: "12px 10px",
+    textAlign: "center",
+  };
   const [challenge, setChallenge] = useState<DailyChallenge | null>(null);
   const [loading, setLoading] = useState(true);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -737,40 +773,6 @@ const DailyChallengeScreen: React.FC<Props> = ({ onNavigate }) => {
       </div>
     </div>
   );
-};
-
-const primaryBtnStyle: React.CSSProperties = {
-  width: "100%",
-  padding: 16,
-  borderRadius: 12,
-  border: "none",
-  background: "#EF9F27",
-  color: "#fff",
-  fontFamily: '"Nunito", sans-serif',
-  fontSize: 15,
-  fontWeight: 800,
-  cursor: "pointer",
-};
-
-const secondaryBtnStyle: React.CSSProperties = {
-  width: "100%",
-  padding: 14,
-  borderRadius: 12,
-  background: "rgba(255,255,255,0.05)",
-  border: "1px solid rgba(255,255,255,0.1)",
-  color: "#F0EEE8",
-  fontFamily: '"Nunito", sans-serif',
-  fontSize: 14,
-  fontWeight: 600,
-  cursor: "pointer",
-};
-
-const statCardStyle: React.CSSProperties = {
-  background: "#1E2333",
-  borderRadius: 12,
-  border: "1px solid rgba(255,255,255,0.07)",
-  padding: "12px 10px",
-  textAlign: "center",
 };
 
 export default DailyChallengeScreen;

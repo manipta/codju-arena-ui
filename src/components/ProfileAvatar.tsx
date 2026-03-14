@@ -80,18 +80,18 @@ const ProfileAvatar: React.FC<Props> = ({
       <div
         style={{
           position: "absolute",
-          bottom: -2,
-          right: -2,
-          width: size * 0.35,
-          height: size * 0.35,
+          bottom: -3,
+          right: -3,
+          width: size * 0.4,
+          height: size * 0.4,
           borderRadius: "50%",
           background: level.color,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          fontSize: size * 0.2,
-          border: "2px solid #0F1117",
-          boxShadow: "0 2px 8px rgba(0,0,0,0.3)",
+          fontSize: size * 0.22,
+          border: "3px solid #0F1117",
+          boxShadow: `0 2px 8px rgba(0,0,0,0.4), 0 0 0 1px ${level.color}40`,
         }}
       >
         {levelIcon}

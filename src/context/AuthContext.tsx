@@ -91,6 +91,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     localStorage.setItem("codju_token", access_token);
     localStorage.setItem("codju_user", JSON.stringify(u));
     axios.defaults.headers.common["Authorization"] = `Bearer ${access_token}`;
+
+    // Fetch detailed profile data after registration
+    try {
+      await refreshUser();
+    } catch (error) {
+      console.error("Failed to fetch profile after registration:", error);
+    }
   };
 
   const logout = () => {
@@ -102,8 +109,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const refreshUser = async () => {
+    if (!token) return;
+
     try {
-      const res = await axios.get(`${API}/auth/profile`);
+      const res = await axios.get(`${API}/auth/profile`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       // New API returns { user: {...} } instead of just the user object
       const userData = res.data.user || res.data;
       setUser(userData);

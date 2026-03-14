@@ -60,7 +60,12 @@ export const useUserProfile = () => {
   };
 
   useEffect(() => {
-    fetchProfile();
+    if (token) {
+      fetchProfile();
+    } else {
+      setProfile(null);
+      setLoading(false);
+    }
   }, [token]);
 
   return {
