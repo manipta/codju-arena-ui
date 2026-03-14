@@ -3,6 +3,7 @@ import axios from "axios";
 import QuestionCard from "../components/QuestionCard";
 import TimerRing from "../components/TimerRing";
 import { useCountdown } from "../hooks/useCountdown";
+import { useTheme } from "../context/ThemeContext";
 
 const API = process.env.REACT_APP_API_URL || "http://localhost:3001";
 
@@ -30,6 +31,7 @@ interface Props {
 }
 
 const DailyChallengeScreen: React.FC<Props> = ({ onNavigate }) => {
+  const { colors, theme } = useTheme();
   const [challenge, setChallenge] = useState<DailyChallenge | null>(null);
   const [loading, setLoading] = useState(true);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -187,18 +189,52 @@ const DailyChallengeScreen: React.FC<Props> = ({ onNavigate }) => {
       <div
         style={{
           fontFamily: '"Nunito", sans-serif',
-          color: "#F0EEE8",
+          color: colors.text,
           paddingBottom: 80,
+          background: colors.background,
+          minHeight: "100vh",
         }}
       >
-        <nav style={navStyle}>
-          <button onClick={() => onNavigate("home")} style={backBtnStyle}>
+        <nav
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            padding: "14px 20px",
+            background: colors.navBackground,
+            borderBottom: `1px solid ${colors.border}`,
+          }}
+        >
+          <button
+            onClick={() => onNavigate("home")}
+            style={{
+              background: "none",
+              border: "none",
+              color: colors.text,
+              fontSize: 18,
+              cursor: "pointer",
+              padding: "4px 8px",
+              fontFamily: '"Nunito", sans-serif',
+            }}
+          >
             ←
           </button>
-          <div style={logoStyle}>Daily Challenge</div>
+          <div
+            style={{
+              fontFamily: '"Fredoka One", cursive',
+              fontSize: 20,
+              background: "linear-gradient(90deg,#EF9F27,#D85A30)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}
+          >
+            Daily Challenge
+          </div>
           <div />
         </nav>
-        <div style={{ padding: 40, textAlign: "center", color: "#8A8FA8" }}>
+        <div
+          style={{ padding: 40, textAlign: "center", color: colors.textMuted }}
+        >
           <div style={{ fontSize: 18, marginBottom: 8 }}>🎯</div>
           Loading today's challenge...
         </div>
@@ -211,26 +247,81 @@ const DailyChallengeScreen: React.FC<Props> = ({ onNavigate }) => {
       <div
         style={{
           fontFamily: '"Nunito", sans-serif',
-          color: "#F0EEE8",
+          color: colors.text,
           paddingBottom: 80,
+          background: colors.background,
+          minHeight: "100vh",
         }}
       >
-        <nav style={navStyle}>
-          <button onClick={() => onNavigate("home")} style={backBtnStyle}>
+        <nav
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            padding: "14px 20px",
+            background: colors.navBackground,
+            borderBottom: `1px solid ${colors.border}`,
+          }}
+        >
+          <button
+            onClick={() => onNavigate("home")}
+            style={{
+              background: "none",
+              border: "none",
+              color: colors.text,
+              fontSize: 18,
+              cursor: "pointer",
+              padding: "4px 8px",
+              fontFamily: '"Nunito", sans-serif',
+            }}
+          >
             ←
           </button>
-          <div style={logoStyle}>Daily Challenge</div>
+          <div
+            style={{
+              fontFamily: '"Fredoka One", cursive',
+              fontSize: 20,
+              background: "linear-gradient(90deg,#EF9F27,#D85A30)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}
+          >
+            Daily Challenge
+          </div>
           <div />
         </nav>
         <div style={{ padding: 40, textAlign: "center" }}>
           <div style={{ fontSize: 48, marginBottom: 16 }}>😔</div>
-          <div style={{ fontSize: 18, fontWeight: 800, marginBottom: 8 }}>
+          <div
+            style={{
+              fontSize: 18,
+              fontWeight: 800,
+              marginBottom: 8,
+              color: colors.text,
+            }}
+          >
             No Challenge Available
           </div>
-          <div style={{ fontSize: 13, color: "#8A8FA8", marginBottom: 20 }}>
+          <div
+            style={{ fontSize: 13, color: colors.textMuted, marginBottom: 20 }}
+          >
             Check back tomorrow for a new challenge!
           </div>
-          <button onClick={() => onNavigate("home")} style={primaryBtnStyle}>
+          <button
+            onClick={() => onNavigate("home")}
+            style={{
+              width: "100%",
+              padding: 16,
+              borderRadius: 12,
+              border: "none",
+              background: colors.warning,
+              color: "#fff",
+              fontFamily: '"Nunito", sans-serif',
+              fontSize: 15,
+              fontWeight: 800,
+              cursor: "pointer",
+            }}
+          >
             Back to Home
           </button>
         </div>
@@ -243,15 +334,47 @@ const DailyChallengeScreen: React.FC<Props> = ({ onNavigate }) => {
       <div
         style={{
           fontFamily: '"Nunito", sans-serif',
-          color: "#F0EEE8",
+          color: colors.text,
           paddingBottom: 80,
+          background: colors.background,
+          minHeight: "100vh",
         }}
       >
-        <nav style={navStyle}>
-          <button onClick={() => onNavigate("home")} style={backBtnStyle}>
+        <nav
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            padding: "14px 20px",
+            background: colors.navBackground,
+            borderBottom: `1px solid ${colors.border}`,
+          }}
+        >
+          <button
+            onClick={() => onNavigate("home")}
+            style={{
+              background: "none",
+              border: "none",
+              color: colors.text,
+              fontSize: 18,
+              cursor: "pointer",
+              padding: "4px 8px",
+              fontFamily: '"Nunito", sans-serif',
+            }}
+          >
             ←
           </button>
-          <div style={logoStyle}>Challenge Complete</div>
+          <div
+            style={{
+              fontFamily: '"Fredoka One", cursive',
+              fontSize: 20,
+              background: "linear-gradient(90deg,#EF9F27,#D85A30)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}
+          >
+            Challenge Complete
+          </div>
           <div />
         </nav>
 
@@ -322,25 +445,31 @@ const DailyChallengeScreen: React.FC<Props> = ({ onNavigate }) => {
               <div style={{ fontSize: 24, color: "#5DCAA5" }}>
                 {result.score}
               </div>
-              <div style={{ fontSize: 11, color: "#8A8FA8" }}>Score</div>
+              <div style={{ fontSize: 11, color: colors.textMuted }}>Score</div>
             </div>
             <div style={statCardStyle}>
               <div style={{ fontSize: 24, color: "#EF9F27" }}>
                 {result.correctAnswers}/{result.totalQuestions}
               </div>
-              <div style={{ fontSize: 11, color: "#8A8FA8" }}>Correct</div>
+              <div style={{ fontSize: 11, color: colors.textMuted }}>
+                Correct
+              </div>
             </div>
             <div style={statCardStyle}>
               <div style={{ fontSize: 24, color: "#378ADD" }}>
                 +{result.xpEarned}
               </div>
-              <div style={{ fontSize: 11, color: "#8A8FA8" }}>XP Earned</div>
+              <div style={{ fontSize: 11, color: colors.textMuted }}>
+                XP Earned
+              </div>
             </div>
             <div style={statCardStyle}>
               <div style={{ fontSize: 24, color: "#8B5CF6" }}>
                 {result.newStreakCount}🔥
               </div>
-              <div style={{ fontSize: 11, color: "#8A8FA8" }}>Streak</div>
+              <div style={{ fontSize: 11, color: colors.textMuted }}>
+                Streak
+              </div>
             </div>
           </div>
 
@@ -372,9 +501,9 @@ const DailyChallengeScreen: React.FC<Props> = ({ onNavigate }) => {
       <div
         style={{
           fontFamily: '"Nunito", sans-serif',
-          color: "#F0EEE8",
+          color: colors.text,
           minHeight: "100vh",
-          background: "#0F1117",
+          background: colors.background,
         }}
       >
         {/* Header */}
@@ -390,7 +519,7 @@ const DailyChallengeScreen: React.FC<Props> = ({ onNavigate }) => {
             Question {currentQuestionIndex + 1}/{challenge.questions.length}
           </div>
           <TimerRing timeLeft={timeLeft} total={20} />
-          <div style={{ fontSize: 14, fontWeight: 800, color: "#EF9F27" }}>
+          <div style={{ fontSize: 14, fontWeight: 800, color: colors.warning }}>
             Daily Challenge
           </div>
         </div>
@@ -400,7 +529,8 @@ const DailyChallengeScreen: React.FC<Props> = ({ onNavigate }) => {
           <div
             style={{
               height: 4,
-              background: "rgba(255,255,255,0.1)",
+              background:
+                theme === "dark" ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)",
               borderRadius: 2,
               overflow: "hidden",
             }}
@@ -409,7 +539,7 @@ const DailyChallengeScreen: React.FC<Props> = ({ onNavigate }) => {
               style={{
                 height: "100%",
                 width: `${progress}%`,
-                background: "#EF9F27",
+                background: colors.warning,
                 transition: "width 0.3s ease",
                 borderRadius: 2,
               }}
@@ -438,10 +568,10 @@ const DailyChallengeScreen: React.FC<Props> = ({ onNavigate }) => {
                 fontWeight: 800,
                 color:
                   selectedAnswer === correctAnswer
-                    ? "#5DCAA5"
+                    ? colors.success
                     : selectedAnswer === -1
-                      ? "#EF9F27"
-                      : "#E24B4A",
+                      ? colors.warning
+                      : colors.error,
                 animation: "fadeUp 0.4s ease",
               }}
             >
@@ -461,15 +591,47 @@ const DailyChallengeScreen: React.FC<Props> = ({ onNavigate }) => {
     <div
       style={{
         fontFamily: '"Nunito", sans-serif',
-        color: "#F0EEE8",
+        color: colors.text,
         paddingBottom: 80,
+        background: colors.background,
+        minHeight: "100vh",
       }}
     >
-      <nav style={navStyle}>
-        <button onClick={() => onNavigate("home")} style={backBtnStyle}>
+      <nav
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          padding: "14px 20px",
+          background: colors.navBackground,
+          borderBottom: `1px solid ${colors.border}`,
+        }}
+      >
+        <button
+          onClick={() => onNavigate("home")}
+          style={{
+            background: "none",
+            border: "none",
+            color: colors.text,
+            fontSize: 18,
+            cursor: "pointer",
+            padding: "4px 8px",
+            fontFamily: '"Nunito", sans-serif',
+          }}
+        >
           ←
         </button>
-        <div style={logoStyle}>🎯 Daily Challenge</div>
+        <div
+          style={{
+            fontFamily: '"Fredoka One", cursive',
+            fontSize: 20,
+            background: "linear-gradient(90deg,#EF9F27,#D85A30)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+          }}
+        >
+          🎯 Daily Challenge
+        </div>
         <div />
       </nav>
 
@@ -485,7 +647,7 @@ const DailyChallengeScreen: React.FC<Props> = ({ onNavigate }) => {
           >
             {challenge.description}
           </div>
-          <div style={{ fontSize: 13, color: "#8A8FA8" }}>
+          <div style={{ fontSize: 13, color: colors.textMuted }}>
             {new Date(challenge.date).toLocaleDateString("en-US", {
               weekday: "long",
               year: "numeric",
@@ -501,7 +663,13 @@ const DailyChallengeScreen: React.FC<Props> = ({ onNavigate }) => {
             <div style={{ fontSize: 18, fontWeight: 800, marginBottom: 8 }}>
               Already Completed!
             </div>
-            <div style={{ fontSize: 13, color: "#8A8FA8", marginBottom: 20 }}>
+            <div
+              style={{
+                fontSize: 13,
+                color: colors.textMuted,
+                marginBottom: 20,
+              }}
+            >
               Come back tomorrow for a new challenge
             </div>
             <button
@@ -535,7 +703,13 @@ const DailyChallengeScreen: React.FC<Props> = ({ onNavigate }) => {
                   <div style={{ fontSize: 14, fontWeight: 800 }}>
                     Today's Challenge
                   </div>
-                  <div style={{ fontSize: 12, color: "#8A8FA8", marginTop: 2 }}>
+                  <div
+                    style={{
+                      fontSize: 12,
+                      color: colors.textMuted,
+                      marginTop: 2,
+                    }}
+                  >
                     Topic: {challenge.topic} • Difficulty:{" "}
                     {challenge.difficulty}
                   </div>
@@ -563,32 +737,6 @@ const DailyChallengeScreen: React.FC<Props> = ({ onNavigate }) => {
       </div>
     </div>
   );
-};
-
-const navStyle: React.CSSProperties = {
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "space-between",
-  padding: "14px 20px",
-  background: "#181C27",
-  borderBottom: "1px solid rgba(255,255,255,0.08)",
-};
-
-const backBtnStyle: React.CSSProperties = {
-  background: "none",
-  border: "none",
-  color: "#F0EEE8",
-  fontSize: 22,
-  cursor: "pointer",
-  padding: 0,
-};
-
-const logoStyle: React.CSSProperties = {
-  fontFamily: '"Fredoka One", cursive',
-  fontSize: 20,
-  background: "linear-gradient(90deg,#EF9F27,#D85A30)",
-  WebkitBackgroundClip: "text",
-  WebkitTextFillColor: "transparent",
 };
 
 const primaryBtnStyle: React.CSSProperties = {

@@ -122,3 +122,30 @@ code {
     opacity: 0.15;
   }
 }
+
+/* Gradient text utility class */
+.gradient-text {
+  background: linear-gradient(90deg, #5DCAA5, #378ADD);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline-block;
+}
+
+.gradient-text-light {
+  background: linear-gradient(90deg, #10B981, #3B82F6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline-block;
+}
+
+/* Fallback for browsers that don't support background-clip */
+@supports not (-webkit-background-clip: text) {
+  .gradient-text {
+    color: #5DCAA5;
+  }
+  .gradient-text-light {
+    color: #10B981;
+  }
+}

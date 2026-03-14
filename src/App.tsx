@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { AuthProvider, useAuth } from "./context/AuthContext";
+import { ThemeProvider } from "./context/ThemeContext";
 import { useGameSocket } from "./hooks/useGameSocket";
 import AuthScreen from "./screens/AuthScreen";
 import HomeScreen from "./screens/HomeScreen";
+import ProgressScreen from "./screens/ProgressScreen";
 import { ArenaScreen, LobbyScreen } from "./screens/ArenaScreen";
 import BattleScreen from "./screens/BattleScreen";
 import ResultScreen from "./screens/ResultScreen";
@@ -16,15 +18,22 @@ import JoinRoomModal from "./components/JoinRoomModal";
 const globalStyles = `
   @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap');
 
+  :root {
+    --bg-color: #0F1117;
+    --text-color: #F0EEE8;
+    --surface-color: #1E2333;
+  }
+
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
-    background: #0F1117;
-    color: #F0EEE8;
+    background: var(--bg-color);
+    color: var(--text-color);
     font-family: 'Nunito', sans-serif;
     min-height: 100vh;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   @keyframes charBounce {
@@ -76,6 +85,7 @@ type Screen =
   | "lobby"
   | "leaderboard"
   | "practice"
+  | "progress"
   | "daily-challenge"
   | "profile";
 
@@ -224,6 +234,9 @@ const AppInner: React.FC = () => {
       case "practice":
         return <PracticeScreen onNavigate={(s) => setScreen(s as Screen)} />;
 
+      case "progress":
+        return <ProgressScreen onNavigate={(s) => setScreen(s as Screen)} />;
+
       case "daily-challenge":
         return (
           <DailyChallengeScreen onNavigate={(s) => setScreen(s as Screen)} />
@@ -265,9 +278,11 @@ const AppInner: React.FC = () => {
 const App: React.FC = () => (
   <>
     <style>{globalStyles}</style>
-    <AuthProvider>
-      <AppInner />
-    </AuthProvider>
+    <ThemeProvider>
+      <AuthProvider>
+        <AppInner />
+      </AuthProvider>
+    </ThemeProvider>
   </>
 );
 

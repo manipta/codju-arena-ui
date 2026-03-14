@@ -104,9 +104,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const refreshUser = async () => {
     try {
       const res = await axios.get(`${API}/auth/profile`);
-      setUser(res.data);
-      localStorage.setItem("codju_user", JSON.stringify(res.data));
-    } catch {}
+      // New API returns { user: {...} } instead of just the user object
+      const userData = res.data.user || res.data;
+      setUser(userData);
+      localStorage.setItem("codju_user", JSON.stringify(userData));
+    } catch (error) {
+      console.error("Failed to refresh user:", error);
+    }
   };
 
   return (

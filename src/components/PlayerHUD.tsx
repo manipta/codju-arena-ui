@@ -1,6 +1,7 @@
 import React from "react";
 import ProfileAvatar from "./ProfileAvatar";
 import { getLevelFromXP } from "../utils/levels";
+import { useTheme } from "../context/ThemeContext";
 
 interface Props {
   name: string;
@@ -19,6 +20,7 @@ const PlayerHUD: React.FC<Props> = ({
   isOpponent,
   hasAnswered,
 }) => {
+  const { colors } = useTheme();
   const level = getLevelFromXP(xp);
   const hearts = Array.from({ length: 3 }, (_, i) => (i < hp ? "❤️" : "🖤"));
 
@@ -30,7 +32,7 @@ const PlayerHUD: React.FC<Props> = ({
         style={{
           fontSize: 12,
           fontWeight: 800,
-          color: "#F0EEE8",
+          color: colors.text,
           marginTop: 4,
           whiteSpace: "nowrap",
           overflow: "hidden",
@@ -68,7 +70,7 @@ const PlayerHUD: React.FC<Props> = ({
         style={{
           fontFamily: '"Fredoka One", cursive',
           fontSize: 22,
-          color: "#F0EEE8",
+          color: colors.text,
         }}
       >
         {score}
@@ -85,7 +87,7 @@ const PlayerHUD: React.FC<Props> = ({
             marginTop: 4,
             fontSize: 10,
             fontWeight: 700,
-            color: hasAnswered ? "#5DCAA5" : "#8A8FA8",
+            color: hasAnswered ? colors.success : colors.textMuted,
           }}
         >
           <span
@@ -94,7 +96,7 @@ const PlayerHUD: React.FC<Props> = ({
               height: 6,
               borderRadius: "50%",
               display: "inline-block",
-              background: hasAnswered ? "#5DCAA5" : "#EF9F27",
+              background: hasAnswered ? colors.success : colors.warning,
               animation: hasAnswered ? "none" : "blink 1s ease-in-out infinite",
             }}
           />

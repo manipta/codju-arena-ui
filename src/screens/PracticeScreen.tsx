@@ -4,6 +4,7 @@ import { useStreak } from "../hooks/useStreak";
 import QuestionCard from "../components/QuestionCard";
 import TimerRing from "../components/TimerRing";
 import { useCountdown } from "../hooks/useCountdown";
+import { useTheme } from "../context/ThemeContext";
 
 const API = process.env.REACT_APP_API_URL || "http://localhost:3001";
 
@@ -58,6 +59,8 @@ const PracticeScreen: React.FC<Props> = ({ onNavigate }) => {
     15,
     !!session && !showResult,
   );
+
+  const { colors, theme } = useTheme();
 
   // Cleanup when component unmounts or navigates away
   useEffect(() => {
@@ -218,15 +221,46 @@ const PracticeScreen: React.FC<Props> = ({ onNavigate }) => {
       <div
         style={{
           fontFamily: '"Nunito", sans-serif',
-          color: "#F0EEE8",
+          color: colors.text,
           paddingBottom: 80,
+          background: colors.background,
+          minHeight: "100vh",
         }}
       >
-        <nav style={navStyle}>
-          <button onClick={() => onNavigate("home")} style={backBtnStyle}>
+        <nav
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            padding: "14px 20px",
+            background: colors.navBackground,
+            borderBottom: `1px solid ${colors.border}`,
+          }}
+        >
+          <button
+            onClick={() => onNavigate("home")}
+            style={{
+              background: "none",
+              border: "none",
+              color: colors.text,
+              fontSize: 22,
+              cursor: "pointer",
+              padding: 0,
+            }}
+          >
             ←
           </button>
-          <div style={logoStyle}>Practice Results</div>
+          <div
+            style={{
+              fontFamily: '"Fredoka One", cursive',
+              fontSize: 20,
+              background: colors.gradient,
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}
+          >
+            Practice Results
+          </div>
           <div />
         </nav>
 
@@ -240,12 +274,15 @@ const PracticeScreen: React.FC<Props> = ({ onNavigate }) => {
               fontFamily: '"Fredoka One", cursive',
               fontSize: 28,
               marginBottom: 8,
+              color: colors.text,
             }}
           >
             Practice Complete!
           </div>
 
-          <div style={{ fontSize: 14, color: "#8A8FA8", marginBottom: 24 }}>
+          <div
+            style={{ fontSize: 14, color: colors.textMuted, marginBottom: 24 }}
+          >
             {result.feedback}
           </div>
 
@@ -258,29 +295,67 @@ const PracticeScreen: React.FC<Props> = ({ onNavigate }) => {
               marginBottom: 24,
             }}
           >
-            <div style={statCardStyle}>
-              <div style={{ fontSize: 24, color: "#5DCAA5" }}>
+            <div
+              style={{
+                background: colors.cardBackground,
+                borderRadius: 12,
+                border: `1px solid ${colors.border}`,
+                padding: "12px 10px",
+                textAlign: "center" as const,
+              }}
+            >
+              <div style={{ fontSize: 24, color: colors.accent }}>
                 {result.score}
               </div>
-              <div style={{ fontSize: 11, color: "#8A8FA8" }}>Score</div>
+              <div style={{ fontSize: 11, color: colors.textMuted }}>Score</div>
             </div>
-            <div style={statCardStyle}>
-              <div style={{ fontSize: 24, color: "#EF9F27" }}>
+            <div
+              style={{
+                background: colors.cardBackground,
+                borderRadius: 12,
+                border: `1px solid ${colors.border}`,
+                padding: "12px 10px",
+                textAlign: "center" as const,
+              }}
+            >
+              <div style={{ fontSize: 24, color: colors.warning }}>
                 {result.accuracy}%
               </div>
-              <div style={{ fontSize: 11, color: "#8A8FA8" }}>Accuracy</div>
+              <div style={{ fontSize: 11, color: colors.textMuted }}>
+                Accuracy
+              </div>
             </div>
-            <div style={statCardStyle}>
-              <div style={{ fontSize: 24, color: "#378ADD" }}>
+            <div
+              style={{
+                background: colors.cardBackground,
+                borderRadius: 12,
+                border: `1px solid ${colors.border}`,
+                padding: "12px 10px",
+                textAlign: "center" as const,
+              }}
+            >
+              <div style={{ fontSize: 24, color: colors.accentSecondary }}>
                 {result.correctAnswers}/{result.totalQuestions}
               </div>
-              <div style={{ fontSize: 11, color: "#8A8FA8" }}>Correct</div>
+              <div style={{ fontSize: 11, color: colors.textMuted }}>
+                Correct
+              </div>
             </div>
-            <div style={statCardStyle}>
+            <div
+              style={{
+                background: colors.cardBackground,
+                borderRadius: 12,
+                border: `1px solid ${colors.border}`,
+                padding: "12px 10px",
+                textAlign: "center" as const,
+              }}
+            >
               <div style={{ fontSize: 24, color: "#8B5CF6" }}>
                 +{result.xpEarned}
               </div>
-              <div style={{ fontSize: 11, color: "#8A8FA8" }}>XP Earned</div>
+              <div style={{ fontSize: 11, color: colors.textMuted }}>
+                XP Earned
+              </div>
             </div>
           </div>
 
@@ -289,7 +364,18 @@ const PracticeScreen: React.FC<Props> = ({ onNavigate }) => {
               onClick={() => {
                 resetPracticeSession();
               }}
-              style={primaryBtnStyle}
+              style={{
+                width: "100%",
+                padding: 16,
+                borderRadius: 12,
+                border: "none",
+                background: colors.accent,
+                color: "#fff",
+                fontFamily: '"Nunito", sans-serif',
+                fontSize: 15,
+                fontWeight: 800,
+                cursor: "pointer",
+              }}
             >
               Practice Again
             </button>
@@ -298,7 +384,21 @@ const PracticeScreen: React.FC<Props> = ({ onNavigate }) => {
                 resetPracticeSession();
                 onNavigate("home");
               }}
-              style={secondaryBtnStyle}
+              style={{
+                width: "100%",
+                padding: 14,
+                borderRadius: 12,
+                background:
+                  theme === "dark"
+                    ? "rgba(255,255,255,0.05)"
+                    : "rgba(0,0,0,0.05)",
+                border: `1px solid ${colors.border}`,
+                color: colors.text,
+                fontFamily: '"Nunito", sans-serif',
+                fontSize: 14,
+                fontWeight: 800,
+                cursor: "pointer",
+              }}
             >
               Back to Home
             </button>
@@ -317,9 +417,9 @@ const PracticeScreen: React.FC<Props> = ({ onNavigate }) => {
       <div
         style={{
           fontFamily: '"Nunito", sans-serif',
-          color: "#F0EEE8",
+          color: colors.text,
           minHeight: "100vh",
-          background: "#0F1117",
+          background: colors.background,
         }}
       >
         {/* Header */}
@@ -335,7 +435,7 @@ const PracticeScreen: React.FC<Props> = ({ onNavigate }) => {
             Question {currentQuestionIndex + 1}/{session.questions.length}
           </div>
           <TimerRing timeLeft={timeLeft} total={15} />
-          <div style={{ fontSize: 14, fontWeight: 800, color: "#5DCAA5" }}>
+          <div style={{ fontSize: 14, fontWeight: 800, color: colors.accent }}>
             Practice
           </div>
         </div>
@@ -345,7 +445,8 @@ const PracticeScreen: React.FC<Props> = ({ onNavigate }) => {
           <div
             style={{
               height: 4,
-              background: "rgba(255,255,255,0.1)",
+              background:
+                theme === "dark" ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)",
               borderRadius: 2,
               overflow: "hidden",
             }}
@@ -354,7 +455,7 @@ const PracticeScreen: React.FC<Props> = ({ onNavigate }) => {
               style={{
                 height: "100%",
                 width: `${progress}%`,
-                background: "#5DCAA5",
+                background: colors.accent,
                 transition: "width 0.3s ease",
                 borderRadius: 2,
               }}
@@ -383,10 +484,10 @@ const PracticeScreen: React.FC<Props> = ({ onNavigate }) => {
                 fontWeight: 800,
                 color:
                   selectedAnswer === correctAnswer
-                    ? "#5DCAA5"
+                    ? colors.success
                     : selectedAnswer === -1
-                      ? "#EF9F27"
-                      : "#E24B4A",
+                      ? colors.warning
+                      : colors.error,
                 animation: "fadeUp 0.4s ease",
               }}
             >
@@ -406,15 +507,46 @@ const PracticeScreen: React.FC<Props> = ({ onNavigate }) => {
     <div
       style={{
         fontFamily: '"Nunito", sans-serif',
-        color: "#F0EEE8",
+        color: colors.text,
         paddingBottom: 80,
+        background: colors.background,
+        minHeight: "100vh",
       }}
     >
-      <nav style={navStyle}>
-        <button onClick={() => onNavigate("home")} style={backBtnStyle}>
+      <nav
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          padding: "14px 20px",
+          background: colors.navBackground,
+          borderBottom: `1px solid ${colors.border}`,
+        }}
+      >
+        <button
+          onClick={() => onNavigate("home")}
+          style={{
+            background: "none",
+            border: "none",
+            color: colors.text,
+            fontSize: 22,
+            cursor: "pointer",
+            padding: 0,
+          }}
+        >
           ←
         </button>
-        <div style={logoStyle}>📚 Practice</div>
+        <div
+          style={{
+            fontFamily: '"Fredoka One", cursive',
+            fontSize: 20,
+            background: colors.gradient,
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+          }}
+        >
+          📚 Practice
+        </div>
         <div />
       </nav>
 
@@ -423,13 +555,16 @@ const PracticeScreen: React.FC<Props> = ({ onNavigate }) => {
           <div
             style={{
               fontFamily: '"Fredoka One", cursive',
+              background: "linear-gradient(90deg,#EF9F27,#D85A30)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
               fontSize: 26,
               marginBottom: 4,
             }}
           >
             Practice Mode
           </div>
-          <div style={{ fontSize: 13, color: "#8A8FA8" }}>
+          <div style={{ fontSize: 13, color: colors.textMuted }}>
             Sharpen your skills with solo practice
           </div>
         </div>
@@ -439,7 +574,7 @@ const PracticeScreen: React.FC<Props> = ({ onNavigate }) => {
           style={{
             fontSize: 10,
             fontWeight: 800,
-            color: "#8A8FA8",
+            color: colors.textMuted,
             letterSpacing: "0.1em",
             marginBottom: 10,
           }}
@@ -463,12 +598,17 @@ const PracticeScreen: React.FC<Props> = ({ onNavigate }) => {
                 borderRadius: 20,
                 fontSize: 12,
                 fontWeight: 800,
-                border: `1.5px solid ${selectedTopic === topic.key ? topic.color : "rgba(255,255,255,0.08)"}`,
+                border: `1.5px solid ${selectedTopic === topic.key ? colors.accent : colors.border}`,
                 background:
                   selectedTopic === topic.key
-                    ? `${topic.color}20`
+                    ? theme === "dark"
+                      ? "rgba(93,202,165,0.1)"
+                      : "rgba(16,185,129,0.1)"
                     : "transparent",
-                color: selectedTopic === topic.key ? topic.color : "#8A8FA8",
+                color:
+                  selectedTopic === topic.key
+                    ? colors.accent
+                    : colors.textMuted,
                 cursor: "pointer",
                 fontFamily: '"Nunito", sans-serif',
               }}
@@ -482,9 +622,17 @@ const PracticeScreen: React.FC<Props> = ({ onNavigate }) => {
           onClick={startPractice}
           disabled={loading}
           style={{
-            ...primaryBtnStyle,
+            width: "100%",
+            padding: 16,
+            borderRadius: 12,
+            border: "none",
+            background: colors.accent,
+            color: "#fff",
+            fontFamily: '"Nunito", sans-serif',
+            fontSize: 15,
+            fontWeight: 800,
+            cursor: "pointer",
             opacity: loading ? 0.6 : 1,
-            cursor: loading ? "not-allowed" : "pointer",
           }}
         >
           {loading ? "Starting..." : "🚀 Start Practice Session"}
@@ -492,66 +640,6 @@ const PracticeScreen: React.FC<Props> = ({ onNavigate }) => {
       </div>
     </div>
   );
-};
-
-const navStyle: React.CSSProperties = {
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "space-between",
-  padding: "14px 20px",
-  background: "#181C27",
-  borderBottom: "1px solid rgba(255,255,255,0.08)",
-};
-
-const backBtnStyle: React.CSSProperties = {
-  background: "none",
-  border: "none",
-  color: "#F0EEE8",
-  fontSize: 22,
-  cursor: "pointer",
-  padding: 0,
-};
-
-const logoStyle: React.CSSProperties = {
-  fontFamily: '"Fredoka One", cursive',
-  fontSize: 20,
-  background: "linear-gradient(90deg,#5DCAA5,#378ADD)",
-  WebkitBackgroundClip: "text",
-  WebkitTextFillColor: "transparent",
-};
-
-const primaryBtnStyle: React.CSSProperties = {
-  width: "100%",
-  padding: 16,
-  borderRadius: 12,
-  border: "none",
-  background: "#1D9E75",
-  color: "#fff",
-  fontFamily: '"Nunito", sans-serif',
-  fontSize: 15,
-  fontWeight: 800,
-  cursor: "pointer",
-};
-
-const secondaryBtnStyle: React.CSSProperties = {
-  width: "100%",
-  padding: 14,
-  borderRadius: 12,
-  background: "rgba(255,255,255,0.05)",
-  border: "1px solid rgba(255,255,255,0.1)",
-  color: "#F0EEE8",
-  fontFamily: '"Nunito", sans-serif',
-  fontSize: 14,
-  fontWeight: 600,
-  cursor: "pointer",
-};
-
-const statCardStyle: React.CSSProperties = {
-  background: "#1E2333",
-  borderRadius: 12,
-  border: "1px solid rgba(255,255,255,0.07)",
-  padding: "12px 10px",
-  textAlign: "center",
 };
 
 export default PracticeScreen;

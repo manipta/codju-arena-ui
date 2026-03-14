@@ -1,23 +1,24 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useAuth } from "../context/AuthContext";
 
 const API = process.env.REACT_APP_API_URL || "http://localhost:3001";
 
-interface DailyActivity {
+export interface DailyActivity {
   date: string;
   battlesPlayed: number;
   xpEarned: number;
   completed: boolean;
 }
 
-interface WeeklyStats {
+export interface WeeklyStats {
   battlesPlayed: number;
   battlesWon: number;
   xpEarned: number;
   averageScore: number;
 }
 
-interface Achievement {
+export interface Achievement {
   id: string;
   name: string;
   description: string;
@@ -25,7 +26,7 @@ interface Achievement {
   isNew: boolean;
 }
 
-interface UserStats {
+export interface UserStats {
   dailyActivity: DailyActivity[];
   weeklyStats: WeeklyStats;
   achievements: Achievement[];
@@ -33,20 +34,24 @@ interface UserStats {
 
 export const useUserStats = () => {
   const [stats, setStats] = useState<UserStats | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { token } = useAuth();
 
   const fetchStats = async () => {
+    if (!token) return;
+
     setLoading(true);
     setError(null);
+
     try {
-      console.log("📊 Fetching user stats...");
-      const response = await axios.get(`${API}/users/stats`);
-      console.log("✅ User stats loaded:", response.data);
+      const response = await axios.get(`${API}/users/stats`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       setStats(response.data);
     } catch (err) {
-      console.error("❌ Failed to fetch user stats:", err);
-      setError("Failed to load stats");
+      console.error("Failed to fetch user stats:", err);
+      setError("Failed to load statistics");
     } finally {
       setLoading(false);
     }
@@ -54,7 +59,12 @@ export const useUserStats = () => {
 
   useEffect(() => {
     fetchStats();
-  }, []);
+  }, [token]);
 
-  return { stats, loading, error, refetch: fetchStats };
+  return {
+    stats,
+    loading,
+    error,
+    refetch: fetchStats,
+  };
 };
